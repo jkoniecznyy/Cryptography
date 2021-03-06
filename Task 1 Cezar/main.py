@@ -2,6 +2,7 @@ from cezarFunctions import *
 
 
 def startEncryption():
+    # Allows user to do an encryption using commandline
     sampleText = "After having used Python for some time, any programmer feels a strong discomfort when using any" \
                  " other omputer language. This side-effect was van Rossum's personal idea. "
 
@@ -16,6 +17,7 @@ def startEncryption():
 
 
 def startDecryption():
+    # Allows user to do a decryption using commandline
     sampleText = 'wbpandwrejcqoazlupdkjbknokiapeiawjulnkcnwiianbaahowopnkjczeoykibknpsdajqoejcwjukp' \
                  'danykilqpanhwjcqwcapdeooezaabbaypsworwjnkooqiolanokjwhezaw '
     print('Type your encrypted text or leave it empty to try out our sample')
