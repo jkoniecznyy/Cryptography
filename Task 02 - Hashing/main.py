@@ -1,21 +1,22 @@
-import hashlib
-import timeit
+from src.TimeCheck import TimeCheck
 
-content = b'Awwwhh jyeaaah! - Bob Marley on hash.'
 
-print(timeit.timeit("-".join(str(n) for n in range(100)), number=100))
-print(timeit.timeit("-".join(str(n) for n in range(100)), number=10000))
+task4Data = [b'Quasar culture ship of the imagination rich in',
 
-print(sorted(hashlib.algorithms_available))
+             b'mystery Cambrian explosion the ash of stellar alchemy. Courage of our questions muse about muse about a',
 
-md5 = hashlib.md5()
-sha1 = hashlib.sha1()
-sha224 = hashlib.sha224()
-sha256 = hashlib.sha256()
-sha384 = hashlib.sha384()
-sha512 = hashlib.sha512()
-list_hash_objects = [md5, sha1, sha224, sha256, sha384, sha512]
+             b'very small stage in a vast cosmic arena take root and flourish take root and flourish? The only home we'
+             b've ever known dream of the minds eye the only home weve ever known not a sunrise but a galaxyrise two g',
 
-for hash_object in list_hash_objects:
-    hash_object.update(content)
-    print('{}: {}'.format(hash_object.name, hash_object.hexdigest()))
+             b'hostly white figures in coveralls and helmets are softly dancing made in the interiors of collapsing stars.'
+             b'With pretty stories for which theres little good evidence dispassionate extraterrestrial observer light ye'
+             b'ars Apollonius of Perga circumnavigated preserve and cherish that paleblue dot. ',
+
+             b'Brain is the seed of intelligence vastness is bearable only through love invent the universe bits of moving'
+             b' fluff Cambrian explosion cosmic ocean. Emerged into consciousness Sea of Tranquility emerged into '
+             b'consciousness not a sunrise but a galaxyrise two ghostly white figures in coveralls and helmets are'
+             b' softly dancing are creatures of the cosmos.'
+             ]
+
+TimeCheck.manualFullTimeCheck()
+TimeCheck.drawTimeToLengthGraph(task4Data, 100)
