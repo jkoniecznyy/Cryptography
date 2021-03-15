@@ -1,4 +1,4 @@
-from cezarFunctions import *
+from src.CezarFunctions import CezarFunctions
 
 
 def startEncryption():
@@ -12,7 +12,7 @@ def startEncryption():
         userText = sampleText
     print('Now type the number of how many digits we should move it')
     numberOfMoves = int(input())
-    encryptedText = encryption(userText, numberOfMoves)
+    encryptedText = CezarFunctions.encryption(userText, numberOfMoves)
     print('Your encrypted text: ', encryptedText)
 
 
@@ -24,9 +24,9 @@ def startDecryption():
     userText = input()
     if not userText:
         userText = sampleText
-    decryptedText = manualDecryption(userText)
+    decryptedText = CezarFunctions.manualDecryption(userText)
     print('Your manually decrypted text: ', decryptedText)
-    print('Calculation shows that the right answer is probably: ', automaticDecryption(userText))
+    print('Calculation shows that the right answer is probably: ', CezarFunctions.automaticDecryption(userText))
 
 
 answer = ''

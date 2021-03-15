@@ -1,5 +1,6 @@
 .idea/
-Task 01 - Cezar/__pycache__/
 Task 01 - Cezar/.idea/
+Task 01 - Cezar/src/__pycache__/
+Task 01 - Cezar/test/.pytest_cache/
 Task 02 - Hashing/.idea/
 Task 02 - Hashing/src/__pycache__/
