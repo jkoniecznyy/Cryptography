@@ -1,4 +1,3 @@
-import logging
 import unittest
 import pymongo
 
@@ -16,16 +15,28 @@ class UserControllerTest(unittest.TestCase):
 
         cls.userService = UserService('cryptoTest', 'usersTest')
 
-    def testAddUserToDatabase(self):
-        self.userService.addUserToDatabase('AddUsername', 'password', 'salt')
-        user = self.collection.find_one({"username": 'AddUsername'})
+    def testAddUserToDatabaseReturnTrue(self):
+        result = self.userService.addUserToDatabase('AddUsername1', 'password', 'salt')
+        self.assertTrue(result)
+
+    def testAddUserToDatabaseIsInDatabase(self):
+        self.userService.addUserToDatabase('AddUsername2', 'password', 'salt')
+        user = self.collection.find_one({"username": 'AddUsername2'})
         self.assertTrue(len(user))
+
+    # TODO
+    # def testAddUserToDatabaseThrowsException(self):
+    #     self.assertRaises(Exception, self.userService.addUserToDatabase('', '', ''))
 
     def testFindUserByUsername(self):
         data = {'username': 'FindUsername', 'password': 'password', 'salt': 'salt'}
         self.collection.insert_one(data)
         user = self.userService.findUserByUsername('FindUsername')
         self.assertEqual(data, user)
+
+    def testFindUserByUsernameThrowsException(self):
+        self.assertRaises(Exception, self.userService.findUserByUsername('Voldemort'))
+        # Harry, We Do Not Speak His Name  (⊙.⊙)
 
 
 if __name__ == '__main__':
