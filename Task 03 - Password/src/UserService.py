@@ -8,6 +8,7 @@ class UserService:
         """ Take database and collection names (both str),
             connect to the database,
             raise Exception is something goes wrong """
+
         try:
             self.client = pymongo.MongoClient()
             self.database = self.client[database]
@@ -20,6 +21,7 @@ class UserService:
         """ Take username, password and salt (all str),
             put them into to database,
             return True or raise Exception """
+
         data = {'username': username, 'password': password, 'salt': salt}
         try:
             self.collection.insert_one(data)
@@ -32,6 +34,7 @@ class UserService:
         """ Take username (str),
             look for the user in database,
             return the user or raise Exception """
+
         try:
             return self.collection.find_one({"username": username})
         except Exception as ex:

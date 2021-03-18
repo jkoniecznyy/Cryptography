@@ -9,6 +9,7 @@ class UserController:
 
     def __init__(self, database: str, collection: str):
         """ Create the userService object with provided database and collection names """
+
         self.userService = UserService(database, collection)
 
     def createUser(self, username: str, password: str) -> bool:
@@ -30,6 +31,7 @@ class UserController:
         """ Take password (str) and salt (bytes),
             hash the password,
             return hashedPassword (str) or raise Exception """
+
         try:
             bPassword = password.encode('utf-8')
             hashedPassword = hashlib.pbkdf2_hmac('sha256', bPassword, salt, 100000)
@@ -43,6 +45,7 @@ class UserController:
             call userService.findUserByUsername function,
             verify given password with the password stored in the database,
             return True / False or raise Exception """
+
         try:
             user = self.userService.findUserByUsername(username)
             salt = user['salt'].encode('utf-8')
