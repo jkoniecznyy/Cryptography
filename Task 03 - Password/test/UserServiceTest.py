@@ -4,7 +4,7 @@ import pymongo
 from src.UserService import UserService
 
 
-class UserControllerTest(unittest.TestCase):
+class UserServiceTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
