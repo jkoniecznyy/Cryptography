@@ -16,17 +16,19 @@ class UserControllerTest(unittest.TestCase):
         cls.userController = UserController('cryptoTest', 'usersTest')
 
     def testCreateUserReturnTrue(self):
-        result = self.userController.createUser('AddUsername1', 'password')
+        result = self.userController.createUser('Severus', 'Snape')
         self.assertTrue(result)
 
     def testCreateUserIsInDatabase(self):
-        self.userController.createUser('AddUsername2', 'password')
-        user = self.collection.find_one({"username": 'AddUsername2'})
+        self.userController.createUser('Rubeus', 'Hagrid')
+        user = self.collection.find_one({"username": 'Rubeus'})
         self.assertTrue(len(user))
+        # it's gonna be a big one
 
     # TODO
-    # def testCreateUserThrowsException(self):
-    #     self.assertRaises(Exception, self.userService.addUserToDatabase('', '', ''))
+    # def testCreateUserReturnFalse(self):
+    #     result = self.userController.createUser('', '')
+    #     self.assertFalse(result)
 
     def testHashPassword(self):
         hashed = self.userController.hashPassword('black wand', b'dumbledore')
@@ -34,17 +36,16 @@ class UserControllerTest(unittest.TestCase):
 
     # TODO
     # def testHashPasswordException(self):
-    #     self.assertRaises(Exception, self.userController.hashPassword('black wand', b'dumbledore'))
+    #     self.assertRaises(Exception, self.userController.hashPassword('black wand', 'dumbledore'))
 
     def testVerifyPasswordTrue(self):
-        self.assertTrue(self.userController.verifyPassword('AddUsername1', 'password'))
+        self.assertTrue(self.userController.verifyPassword('Rubeus', 'Hagrid'))
 
     def testVerifyPasswordFalse(self):
-        self.assertFalse(self.userController.verifyPassword('AddUsername1', 'bonk'))
+        self.assertFalse(self.userController.verifyPassword('Rubeus', 'Lupin'))
 
-    # TODO
-    # def testVerifyPasswordException(self):
-    #     self.assertRaises(Exception,)
+    def testVerifyPasswordException(self):
+        self.assertRaises(Exception, self.userController.verifyPassword('', ''))
 
 
 if __name__ == '__main__':

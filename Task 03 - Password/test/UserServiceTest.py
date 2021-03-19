@@ -16,26 +16,22 @@ class UserControllerTest(unittest.TestCase):
         cls.userService = UserService('cryptoTest', 'usersTest')
 
     def testAddUserToDatabaseReturnTrue(self):
-        result = self.userService.addUserToDatabase('AddUsername1', 'password', 'salt')
+        result = self.userService.addUserToDatabase('Harry', 'Potter', 'Gryffindor')
         self.assertTrue(result)
 
     def testAddUserToDatabaseIsInDatabase(self):
-        self.userService.addUserToDatabase('AddUsername2', 'password', 'salt')
-        user = self.collection.find_one({"username": 'AddUsername2'})
+        self.userService.addUserToDatabase('Hermione', 'Granger', 'Gryffindor')
+        user = self.collection.find_one({"username": 'Hermione'})
         self.assertTrue(len(user))
 
-    # TODO
-    # def testAddUserToDatabaseThrowsException(self):
-    #     self.assertRaises(Exception, self.userService.addUserToDatabase('', '', ''))
-
     def testFindUserByUsername(self):
-        data = {'username': 'FindUsername', 'password': 'password', 'salt': 'salt'}
+        data = {'username': 'Ron', 'password': 'Wesley', 'salt': 'Gryffindor'}
         self.collection.insert_one(data)
-        user = self.userService.findUserByUsername('FindUsername')
+        user = self.userService.findUserByUsername('Ron')
         self.assertEqual(data, user)
 
-    def testFindUserByUsernameThrowsException(self):
-        self.assertRaises(Exception, self.userService.findUserByUsername('Voldemort'))
+    def testFindUserByUsernameNone(self):
+        self.assertIsNone(self.userService.findUserByUsername('Voldemort'))
         # Harry, We Do Not Speak His Name  (⊙.⊙)
 
 
