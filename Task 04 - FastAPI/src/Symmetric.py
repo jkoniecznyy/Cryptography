@@ -5,14 +5,14 @@ class Symmetric:
     """
         Symmetric
     """
-    key = ''
+    key = None
 
     def __init__(self):
         pass
 
     def createKey(self) -> hex:
         """
-        Genrates a random symmetric key
+        Generates a random symmetric key
         :rtype: hex key
         """
         return Fernet.generate_key().hex()
@@ -24,7 +24,7 @@ class Symmetric:
         self.key = key
         return True
 
-    def encode(self, text: str):
+    def encode(self, text: str) -> bytes:
         """
 
         """

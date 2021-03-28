@@ -22,9 +22,9 @@ GET asymetric/key/ssh -> zwraca klucz publiczny i prywatny w postaci HEX zapisan
 
 POST asymetric/key -> ustawia na serwerze klucz publiczny i prywatny w postaci HEX (w JSON jako dict)
 
-POST asymetric/verify -> korzystając z aktualnie ustawionego klucza prywatnego, podpisuje wiadomość i zwracaą ją podpisaną
+POST asymetric/sign -> korzystając z aktualnie ustawionego klucza prywatnego, podpisuje wiadomość i zwracaą ją podpisaną
 
-POST asymetric/sign -> korzystając z aktualnie ustawionego klucza publicznego, weryfikuję czy wiadomość była zaszyfrowana przy jego użyciu
+POST asymetric/verify -> korzystając z aktualnie ustawionego klucza publicznego, weryfikuję czy wiadomość była zaszyfrowana przy jego użyciu
 
 POST asymetric/encode -> wysyłamy wiadomość, w wyniku dostajemy ją zaszyfrowaną
 
@@ -41,3 +41,7 @@ Zadbaj o:
 Dla chętnych:
 1. Dodaj testy jednostkowe do projektu
 2. Użyj jinja2 i zrób prosty Frontend do tego.
+
+```
+uvicorn main:shared --reload
+```
