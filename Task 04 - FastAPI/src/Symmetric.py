@@ -10,7 +10,7 @@ class Symmetric:
     def __init__(self):
         pass
 
-    def createKey(self) -> hex:
+    def generateKey(self) -> hex:
         """
         Generates a random symmetric key
         :rtype: hex key

@@ -1,36 +1,67 @@
-from cryptography.hazmat.primitives import serialization
-from cryptography.hazmat.primitives.asymmetric import rsa
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives import serialization, hashes
+from cryptography.hazmat.primitives.asymmetric import rsa, padding
+import logging
+import base64
 
 
 class Asymmetric:
     """
         Asymmetric
     """
-    keys = {
-        "privateKey": None,
-        "publicKey": None
-    }
+    privateKey = None
+    publicKey = None
 
     def __init__(self):
         pass
 
-    def __updateKeys(self, privateKey):
+    def setKeys(self, privateKey, publicKey):
         """
             Asymmetric
         """
-        self.keys["privateKey"] = privateKey.private_bytes(encoding=serialization.Encoding.PEM,
-                                                           format=serialization.PrivateFormat.TraditionalOpenSSL,
-                                                           encryption_algorithm=serialization.NoEncryption()).hex()
-        self.keys["publicKey"] = privateKey.public_key().public_bytes(encoding=serialization.Encoding.PEM,
-                                                                      format=serialization.PublicFormat.SubjectPublicKeyInfo).hex()
+        self.privateKey = privateKey
+        self.publicKey = publicKey
+        return True
 
-    def createKeys(self):
+    def getKeys(self):
         """
-        Generates a random symmetric key
+            Asymmetric
+        """
+        return self.privateKey, self.publicKey
+
+    def getKeysInHex(self):
+        """
+            Asymmetric
+        """
+        privateKeyHex = self.privateKey.private_bytes(
+            encoding=serialization.Encoding.PEM,
+            format=serialization.PrivateFormat.TraditionalOpenSSL,
+            encryption_algorithm=serialization.NoEncryption()
+        ).hex()
+
+        publicKeyHex = self.publicKey.public_bytes(
+            encoding=serialization.Encoding.PEM,
+            format=serialization.PublicFormat.SubjectPublicKeyInfo
+        ).hex()
+
+        keysHex = {
+            "privateKeyHex": privateKeyHex,
+            "publicKeyHex": publicKeyHex
+        }
+
+        return keysHex
+
+    def generateKeys(self):
+        """
+        Generates a random asymmetric key
         :rtype: hex key
         """
-        self.__updateKeys(rsa.generate_private_key(public_exponent=65537, key_size=2048))
-        return self.keys
+        logging.warning('generateKeys')
+        privateKey = rsa.generate_private_key(
+            public_exponent=65537, key_size=2048, backend=default_backend())
+        publicKey = privateKey.public_key()
+
+        return [privateKey, publicKey]
 
     def getSSHKey(self):
         """
@@ -39,34 +70,60 @@ class Asymmetric:
 
         return True
 
-    def postKey(self, privateKey, publicKey):
+    def sign(self, message: str):
         """
             Asymmetric
         """
-        self.keys["privateKey"] = privateKey
-        self.keys["publicKey"] = publicKey
-        return True
+        logging.warning('sign')
+        signature = self.privateKey.sign(
+            message.encode(),
+            padding.PSS(
+                mgf=padding.MGF1(hashes.SHA256()),
+                salt_length=padding.PSS.MAX_LENGTH
+            ),
+            hashes.SHA256()
+        )
+        return base64.b64encode(signature)
 
-    def sign(self, message):
+    def verify(self, message, signature):
         """
             Asymmetric
         """
-        pass
+        logging.warning('verify')
+        return self.publicKey.verify(
+            base64.b64decode(signature),
+            message.encode(),
+            padding.PSS(
+                mgf=padding.MGF1(hashes.SHA256()),
+                salt_length=padding.PSS.MAX_LENGTH
+            ),
+            hashes.SHA256()
+        )
 
-    def verify(self, message):
+    def encrypt(self, message: str) -> bytes:
         """
             Asymmetric
         """
-        pass
+        ciphertext = self.publicKey.encrypt(
+            message.encode(),
+            padding.OAEP(
+                mgf=padding.MGF1(algorithm=hashes.SHA256()),
+                algorithm=hashes.SHA256(),
+                label=None
+            )
+        )
+        return base64.b64encode(ciphertext)
 
-    def encode(self, message):
+    def decode(self, message: bytes):
         """
             Asymmetric
         """
-        pass
-
-    def decode(self, message):
-        """
-            Asymmetric
-        """
-        pass
+        plaintext = self.privateKey.decrypt(
+            base64.b64decode(message),
+            padding.OAEP(
+                mgf=padding.MGF1(algorithm=hashes.SHA256()),
+                algorithm=hashes.SHA256(),
+                label=None
+            )
+        )
+        return plaintext

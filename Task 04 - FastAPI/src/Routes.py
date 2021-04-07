@@ -11,7 +11,7 @@ asymmetric = Asymmetric()
 # Symmetric routes
 @shared.get("/symmetric/key/")
 def getSymmetricKey():
-    return symmetric.createKey()
+    return symmetric.generateKey()
 
 
 @shared.post("/symmetric/key/")
@@ -33,33 +33,35 @@ def postSymmetricDecode(text: bytes):
 # Asymmetric routes
 @shared.get("/asymmetric/key/")
 def getAsymmetricKey():
-    return asymmetric.createKeys()
+    privateKey, publicKey = asymmetric.generateKeys()
+    asymmetric.setKeys(privateKey, publicKey)
+    return asymmetric.getKeysInHex()
 
 
 # todo SSH
 @shared.get("/asymmetric/key/ssh")
-def getAsymmetricKey():
-    return asymmetric.createKeys()
+def getAsymmetricKeySSH():
+    return asymmetric.generateKey()
 
 
 @shared.post("/asymmetric/key/")
 def postAsymmetricKey(privateKey, publicKey):
-    return asymmetric.postKey(privateKey, publicKey)
+    return asymmetric.setKeys(privateKey, publicKey)
 
 
 @shared.post("/asymmetric/sign/")
-def postSignMessage(message):
+def postSignMessage(message: str):
     return asymmetric.sign(message)
 
 
 @shared.post("/asymmetric/verify/")
-def postVerifyMessage(message):
-    return asymmetric.verify(message)
+def postVerifyMessage(message, signature):
+    return asymmetric.verify(message, signature)
 
 
 @shared.post("/asymmetric/encode/")
 def postEncode(message):
-    return asymmetric.encode(message)
+    return asymmetric.encrypt(message)
 
 
 @shared.post("/asymmetric/decode/")
