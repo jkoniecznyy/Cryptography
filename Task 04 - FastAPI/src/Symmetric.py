@@ -56,7 +56,7 @@ class Symmetric:
         else:
             return None
 
-    def decrypt(self, text: bytes) -> Optional[bytes]:
+    def decrypt(self, text: bytes) -> Optional[str]:
         """
             Decode a text
             :rtype: Optional[bytes]
@@ -65,7 +65,7 @@ class Symmetric:
         if self.key is not None:
             try:
                 f = Fernet(bytearray.fromhex(self.key))
-                return f.decrypt(text)
+                return f.decrypt(text).decode()
             except Exception as ex:
                 logging.error(ex)
                 return None
