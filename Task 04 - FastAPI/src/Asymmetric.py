@@ -1,6 +1,8 @@
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import serialization, hashes
 from cryptography.hazmat.primitives.asymmetric import rsa, padding
+from cryptography.hazmat.primitives.asymmetric.rsa import RSAPrivateKey, RSAPublicKey
+from typing import Optional
 import logging
 import base64
 
@@ -19,132 +21,169 @@ class Asymmetric:
         logging.info('Asymmetric - class created')
         pass
 
-    def setKeys(self, privateKey, publicKey):
+    def setKeys(self, privateKey: RSAPrivateKey, publicKey: RSAPublicKey) -> bool:
         """
-            setKeys
+            Save public and private key on the server
+            :rtype: bool
         """
-        logging.info('Asymmetric - Setting keys')
+        logging.info('Asymmetric - Setting kseys')
         self.privateKey = privateKey
         self.publicKey = publicKey
         return True
 
-    def getKeys(self):
+    def getKeys(self) -> Optional[tuple[RSAPrivateKey, RSAPublicKey]]:
         """
-            getKeys
+            Get public and private key in the RSA format
+            :rtype: Optional[tuple[RSAPrivateKey, RSAPublicKey]]
         """
         logging.info('Asymmetric - Getting keys')
         return self.privateKey, self.publicKey
 
-    def getKeysInHex(self):
+    def getKeysInHex(self) -> Optional[dict[hex, hex]]:
         """
-            getKeysInHex
+            Get public and private key in the HEX format
+            :rtype: Optional[dict[hex, hex]]
         """
         logging.info('Asymmetric - Getting keys as Hex')
-        privateKeyHex = self.privateKey.private_bytes(
-            encoding=serialization.Encoding.PEM,
-            format=serialization.PrivateFormat.TraditionalOpenSSL,
-            encryption_algorithm=serialization.NoEncryption()
-        ).hex()
+        try:
+            privateKeyHex = self.privateKey.private_bytes(
+                encoding=serialization.Encoding.PEM,
+                format=serialization.PrivateFormat.TraditionalOpenSSL,
+                encryption_algorithm=serialization.NoEncryption()
+            ).hex()
 
-        publicKeyHex = self.publicKey.public_bytes(
-            encoding=serialization.Encoding.PEM,
-            format=serialization.PublicFormat.SubjectPublicKeyInfo
-        ).hex()
+            publicKeyHex = self.publicKey.public_bytes(
+                encoding=serialization.Encoding.PEM,
+                format=serialization.PublicFormat.SubjectPublicKeyInfo
+            ).hex()
 
-        return {
-            "privateKeyHex": privateKeyHex,
-            "publicKeyHex": publicKeyHex
-        }
+            return {
+                "privateKeyHex": privateKeyHex,
+                "publicKeyHex": publicKeyHex
+            }
+        except Exception as ex:
+            logging.error(ex)
+            return None
 
-    def getKeysInSSH(self):
+    def getKeysInSSH(self) -> Optional[dict[hex, hex]]:
         """
-            getKeysInSSH
+            Get public and private key in the SSH HEX format
+            :rtype: Optional[dict[hex, hex]]
         """
         logging.info('Asymmetric - Getting keys as SSH')
-        privateKeySSH = self.privateKey.private_bytes(
-            encoding=serialization.Encoding.PEM,
-            format=serialization.PrivateFormat.OpenSSH,
-            encryption_algorithm=serialization.NoEncryption()
-        ).hex()
+        try:
+            privateKeySSH = self.privateKey.private_bytes(
+                encoding=serialization.Encoding.PEM,
+                format=serialization.PrivateFormat.OpenSSH,
+                encryption_algorithm=serialization.NoEncryption()
+            ).hex()
 
-        publicKeySSH = self.publicKey.public_bytes(
-            encoding=serialization.Encoding.OpenSSH,
-            format=serialization.PublicFormat.OpenSSH
-        ).hex()
+            publicKeySSH = self.publicKey.public_bytes(
+                encoding=serialization.Encoding.OpenSSH,
+                format=serialization.PublicFormat.OpenSSH
+            ).hex()
 
-        return {
-            "privateKeySSH": privateKeySSH,
-            "publicKeySSH": publicKeySSH
-        }
+            return {
+                "privateKeySSH": privateKeySSH,
+                "publicKeySSH": publicKeySSH
+            }
+        except Exception as ex:
+            logging.error(ex)
+            return None
 
-    def generateKeys(self):
+    def generateKeys(self) -> Optional[tuple[RSAPrivateKey, RSAPublicKey]]:
         """
-            Generate a random asymmetric key
-            :rtype:
+            Generate random asymmetric keys
+            :rtype: Optional[tuple[RSAPrivateKey, RSAPublicKey]]
         """
         logging.info('Asymmetric - Generating the keys')
-        privateKey = rsa.generate_private_key(
-            public_exponent=65537, key_size=2048, backend=default_backend())
-        publicKey = privateKey.public_key()
+        try:
+            privateKey = rsa.generate_private_key(
+                public_exponent=65537, key_size=2048, backend=default_backend())
+            publicKey = privateKey.public_key()
 
-        return [privateKey, publicKey]
+            return privateKey, publicKey
+        except Exception as ex:
+            logging.error(ex)
+            return None
 
-    def sign(self, message: str):
+    def sign(self, text: str) -> Optional[bytes]:
         """
-            sign
+            Sing a text
+            :rtype: Optional[bytes]
         """
         logging.info('Asymmetric - Signing the message')
-        signature = self.privateKey.sign(
-            message.encode(),
-            padding.PSS(
-                mgf=padding.MGF1(hashes.SHA256()),
-                salt_length=padding.PSS.MAX_LENGTH
-            ),
-            hashes.SHA256()
-        )
-        return base64.b64encode(signature)
+        try:
+            signature = self.privateKey.sign(
+                text.encode(),
+                padding.PSS(
+                    mgf=padding.MGF1(hashes.SHA256()),
+                    salt_length=padding.PSS.MAX_LENGTH
+                ),
+                hashes.SHA256()
+            )
+            return base64.b64encode(signature)
+        except Exception as ex:
+            logging.error(ex)
+            return None
 
-    def verify(self, message, signature):
+    def verify(self, text: str, signature: bytes) -> bool:
         """
-            verify
+            Verify a text
+            :rtype: bool
         """
         logging.info('Asymmetric - Verifying the message')
-        return self.publicKey.verify(
-            base64.b64decode(signature),
-            message.encode(),
-            padding.PSS(
-                mgf=padding.MGF1(hashes.SHA256()),
-                salt_length=padding.PSS.MAX_LENGTH
-            ),
-            hashes.SHA256()
-        )
+        try:
+            self.publicKey.verify(
+                base64.b64decode(signature),
+                text.encode(),
+                padding.PSS(
+                    mgf=padding.MGF1(hashes.SHA256()),
+                    salt_length=padding.PSS.MAX_LENGTH
+                ),
+                hashes.SHA256()
+            )
+            return True
+        except Exception as ex:
+            logging.error(ex)
+            return False
 
-    def encrypt(self, message: str) -> bytes:
+    def encrypt(self, text: str) -> Optional[bytes]:
         """
-            encrypt
+            Encrypt a text (str)
+            :rtype: Optional[bytes]
         """
         logging.info('Asymmetric - Encoding the text')
-        ciphertext = self.publicKey.encrypt(
-            message.encode(),
-            padding.OAEP(
-                mgf=padding.MGF1(algorithm=hashes.SHA256()),
-                algorithm=hashes.SHA256(),
-                label=None
+        try:
+            ciphertext = self.publicKey.encrypt(
+                text.encode(),
+                padding.OAEP(
+                    mgf=padding.MGF1(algorithm=hashes.SHA256()),
+                    algorithm=hashes.SHA256(),
+                    label=None
+                )
             )
-        )
-        return base64.b64encode(ciphertext)
+            return base64.b64encode(ciphertext)
+        except Exception as ex:
+            logging.error(ex)
+            return None
 
-    def decode(self, message: bytes):
+    def decrypt(self, text: bytes) -> Optional[bytes]:
         """
-            decode
+            Decrypt a text (bytes)
+            :rtype: Optional[bytes]
         """
         logging.info('Asymmetric - Decoding the text')
-        plaintext = self.privateKey.decrypt(
-            base64.b64decode(message),
-            padding.OAEP(
-                mgf=padding.MGF1(algorithm=hashes.SHA256()),
-                algorithm=hashes.SHA256(),
-                label=None
+        try:
+            plaintext = self.privateKey.decrypt(
+                base64.b64decode(text),
+                padding.OAEP(
+                    mgf=padding.MGF1(algorithm=hashes.SHA256()),
+                    algorithm=hashes.SHA256(),
+                    label=None
+                )
             )
-        )
-        return plaintext
+            return plaintext
+        except Exception as ex:
+            logging.error(ex)
+            return None

@@ -1,14 +1,13 @@
-from typing import Optional
-
 from cryptography.fernet import Fernet
+from typing import Optional
 import logging
 
 
 class Symmetric:
     """
-        Allows to generate and set symmetric key
-        and to encode and decode a text,
-        by using previously set key
+        Allows to:
+        - generate and set the symmetric key
+        - encode and decode a text, by using previously set key
     """
     key = None
 
@@ -18,8 +17,8 @@ class Symmetric:
 
     def generateKey(self) -> Optional[hex]:
         """
-        Generate a random symmetric key
-        :rtype: Optional[hex]
+            Generate a random symmetric key
+            :rtype: Optional[hex]
         """
         logging.info('Symmetric - Generating a key')
         try:
@@ -41,7 +40,7 @@ class Symmetric:
             logging.error(ex)
             return False
 
-    def encode(self, text: str) -> Optional[bytes]:
+    def encrypt(self, text: str) -> Optional[bytes]:
         """
             Encode a text
             :rtype: Optional[bytes]
@@ -57,7 +56,7 @@ class Symmetric:
         else:
             return None
 
-    def decode(self, text: bytes) -> Optional[bytes]:
+    def decrypt(self, text: bytes) -> Optional[bytes]:
         """
             Decode a text
             :rtype: Optional[bytes]
