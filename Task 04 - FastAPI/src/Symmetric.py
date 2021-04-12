@@ -33,12 +33,8 @@ class Symmetric:
             :rtype: bool
         """
         logging.info('Symmetric - Setting the key')
-        try:
-            self.key = key
-            return True
-        except Exception as ex:
-            logging.error(ex)
-            return False
+        self.key = key
+        return True
 
     def encrypt(self, text: str) -> Optional[bytes]:
         """
