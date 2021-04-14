@@ -1,15 +1,34 @@
+import math
 import re
 import random
 import string
-from src.secret import words, emojiLetters
+from src.secret import move1, move2, words, emojiLetters
 
 
 class CustomCipher:
 
     def __init__(self):
+        self.move1 = move1
+        self.move2 = move2
         self.words = words
         self.emojiLetters = emojiLetters
         pass
+
+    def cipher(self, sourceText: str) -> str:
+        inputText = self.prepareStr(sourceText)
+        step1 = self.transposition(inputText, self.move1)
+        step2 = self.cezarCipher(step1)
+        step3 = self.homophonicCipher(step2)
+        step4 = self.transposition(step3, self.move2)
+        return step4
+
+    def deCipher(self, cipheredText: str) -> str:
+        step1 = self.deTransposition(cipheredText, self.move2)
+        step2 = self.homophonicDeipher(step1)
+        step3 = self.cezarDecipher(step2)
+        step4 = self.deTransposition(step3, self.move1)
+        return step4
+
 
     @staticmethod
     def prepareStr(inputText: str) -> str:
@@ -33,11 +52,11 @@ class CustomCipher:
             outputText += chr(newAsciiCode)
         return outputText
 
-    def customCezarCipher(self, inputText: str) -> str:
+    def cezarCipher(self, inputText: str) -> str:
         n = random.randint(1, 25)
         return self.words[n % 5] + string.ascii_lowercase[n] + CustomCipher.cezarMove(inputText, n)
 
-    def customCezarDecipher(self, inputText: str):
+    def cezarDecipher(self, inputText: str):
         check = inputText[0:6]
         for word in self.words:
             if word in check:
@@ -47,7 +66,7 @@ class CustomCipher:
                 realText = inputText[keyWordLen + 1:]
                 return CustomCipher.cezarMove(realText, -keyCharNumber)
 
-    def customHomophonicCipher(self, inputText: str):
+    def homophonicCipher(self, inputText: str):
         inputText = CustomCipher.prepareStr(inputText)
         count = [0, 0, 0]
         outputText = ''
@@ -63,7 +82,7 @@ class CustomCipher:
         # print(count)
         return outputText
 
-    def customHomophonicDeipher(self, inputText: str):
+    def homophonicDeipher(self, inputText: str):
         outputText = ''
         # print('-----------Decipher------------')
         for inputLetter in inputText:
@@ -73,3 +92,39 @@ class CustomCipher:
                         outputText += dictionaryLetter
                         # print(emoji, dictionaryLetter)
         return outputText
+
+    def transposition(self, message, key):
+        """
+        """
+        cipherText = [""] * key
+        for col in range(key):
+            pointer = col
+            while pointer < len(message):
+                cipherText[col] += message[pointer]
+                pointer += key
+        return "".join(cipherText)
+
+    def deTransposition(self, message, key):
+        """
+
+        """
+        numCols = math.ceil(len(message) / key)
+        numRows = key
+        numShadedBoxes = (numCols * numRows) - len(message)
+        plainText = [""] * numCols
+        col = 0
+        row = 0
+
+        for symbol in message:
+            plainText[col] += symbol
+            col += 1
+
+            if (
+                    (col == numCols)
+                    or (col == numCols - 1)
+                    and (row >= numRows - numShadedBoxes)
+            ):
+                col = 0
+                row += 1
+
+        return "".join(plainText)

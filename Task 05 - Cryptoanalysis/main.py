@@ -7,15 +7,18 @@ if __name__ == '__main__':
         sourceText = re.sub("[^a-z\s]", "", x, 0, re.IGNORECASE | re.MULTILINE)
 
     cc = CustomCipher()
-    cipher1 = cc.customCezarCipher(sourceText)
-    cipher2 = cc.customHomophonicCipher(cipher1)
-    decipher2 = cc.customHomophonicDeipher(cipher2)
-    decipher1 = cc.customCezarDecipher(decipher2)
-    print(sourceText)
-    print(cipher2)
-    print(decipher1)
-    if decipher1 != CustomCipher.prepareStr(sourceText):
+    ciphered = cc.cipher(sourceText)
+    deciphered = cc.deCipher(ciphered)
+    
+    print(cc.prepareStr(sourceText))
+    print(ciphered)
+    print(deciphered)
+    print(len(deciphered))
+    print()
+    if deciphered != cc.prepareStr(sourceText):
         print('We have a problem')
+    else:
+        print('Everything is ok')
 
     with open("output.txt", "w", encoding="utf-8") as n:
-        n.write(cipher2)
+        n.write(ciphered)
