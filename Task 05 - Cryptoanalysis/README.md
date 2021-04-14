@@ -1,18 +1,25 @@
-Ćwiczenie 5: Kryptoanaliza v1
+#Task 05: Cryptanalysis v1
+##Description
+Program read the input.txt file, perform my custom four-step ciphering and 
+save it as an awesome emoji ciphered text to the output.txt file.
 
-Spróbuj wymyślić swój własny szyfr. Wymagania:
+For now, I'm keeping the "input.txt" and the "secret.py" files in gitignore so to not spoil the fun of my colleagues
 
-a) podstawieniowy, monoalfabetyczny lub
+##Requirements
 
-b) homofoniczny (max 3 podstawienia per znak)
+Try to come up with your own cipher:
 
-c) transpozycje kolumn
+a) substitutional, monoalphabetic or
 
-d) transpozycje wierszy
+b) homophonic (max 3 substitutions per character)
 
-e) szyfr "przyjmuje" angielski alfabet
+c) column transposition
 
-f) Spacje mogą zostać, ale nie muszą
+d) poem transposition
 
-Zaszyfrować tekst angielski o długości 1000-2000 znaków i przesłać go jako załącznik do tego zadania. 
-Za tydzień zrobimy konkurs w łamaniu szyfrów.
+e) the code "accepts" the English alphabet
+
+f) Spaces may or may not stay
+
+Encrypt the English text 1000-2000 characters long and send it as an attachment for this task.
+In a week's time we'll have a cipher-breaking contest. 
