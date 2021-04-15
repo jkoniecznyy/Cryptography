@@ -23,4 +23,4 @@ e) the code "accepts" the English alphabet
 f) Spaces may or may not stay
 
 Encrypt the English text 1000-2000 characters long and send it as an attachment for this task.
-In a week's time we'll have a cipher-breaking contest. 
+In a week's time we'll have a cipher-breaking contest.

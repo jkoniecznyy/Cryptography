@@ -1,6 +1,5 @@
 from src.secret import move1, move2, words, emojiLetters
 import re
-import math
 import random
 import string
 import logging
@@ -48,17 +47,6 @@ class CustomCipher:
         logging.info(ciphered)
         return ciphered
 
-    def decipher(self, cipheredText: str) -> str:
-        """
-            Use all of the prepared deciphers and return deciphered text
-            :rtype: str
-        """
-        step1 = self.transpositionDecipher(cipheredText, self.move2)
-        step2 = self.homophonicDecipher(step1)
-        step3 = self.cezarDecipher(step2)
-        deciphered = self.transpositionDecipher(step3, self.move1)
-        return deciphered
-
     def cezarCipher(self, inputText: str) -> str:
         """
             Do a little bit more complicated cezar cipher to a given text
@@ -66,20 +54,6 @@ class CustomCipher:
         """
         n = random.randint(1, 25)
         return self.words[n % 5] + string.ascii_lowercase[n] + CustomCipher.cezarMove(inputText, n)
-
-    def cezarDecipher(self, inputText: str):
-        """
-            Decipher the cezar cipher of a given text
-            :rtype: str
-        """
-        check = inputText[0:6]
-        for word in self.words:
-            if word in check:
-                keyWordLen = len(word)
-                keyChar = check[keyWordLen]
-                keyCharNumber = ord(keyChar) - 97
-                realText = inputText[keyWordLen + 1:]
-                return CustomCipher.cezarMove(realText, -keyCharNumber)
 
     def homophonicCipher(self, inputText: str) -> str:
         """
@@ -95,19 +69,7 @@ class CustomCipher:
                     rand = random.randint(0, len(emojis) - 1)
                     count[rand] += 1
                     outputText += emojis[rand]
-        return outputText
-
-    def homophonicDecipher(self, inputText: str) -> str:
-        """
-            Decipher a homophonic cipher of a given text
-            :rtype: str
-        """
-        outputText = ''
-        for inputLetter in inputText:
-            for dictionaryLetter in self.emojiLetters:
-                for emoji in self.emojiLetters[dictionaryLetter]:
-                    if inputLetter == emoji:
-                        outputText += dictionaryLetter
+        # print('count', count)
         return outputText
 
     @staticmethod
@@ -149,30 +111,3 @@ class CustomCipher:
                 cipherText[col] += text[pointer]
                 pointer += key
         return "".join(cipherText)
-
-    @staticmethod
-    def transpositionDecipher(text: str, key: int) -> str:
-        """
-            Decipher a transposition in a given text using the key value
-            :rtype: str
-        """
-        numCols = math.ceil(len(text) / key)
-        numRows = key
-        numShadedBoxes = (numCols * numRows) - len(text)
-        plainText = [""] * numCols
-        col = 0
-        row = 0
-
-        for symbol in text:
-            plainText[col] += symbol
-            col += 1
-
-            if (
-                    (col == numCols)
-                    or (col == numCols - 1)
-                    and (row >= numRows - numShadedBoxes)
-            ):
-                col = 0
-                row += 1
-
-        return "".join(plainText)

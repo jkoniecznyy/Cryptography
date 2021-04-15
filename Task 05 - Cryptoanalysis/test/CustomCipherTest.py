@@ -7,28 +7,34 @@ class CustomCipherTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.cc = CustomCipher()
-        cls.testText = 'minecraftisnotoriousinthegamingworldforhavingabsolutelynoplotlinenovariationinga' \
-                       'meplayandnoaimatallallinallitmakesthegameasaboutasinterestingasthemathhomeworkmo' \
-                       'stofitsplayersshouldbedoinginsteadofplayingit'
+        cls.text = 'minecraftisnotoriousinthegamingworldforhavingabsolutelynoplotlinenovariationinga' \
+                   'meplayandnoaimatallallinallitmakesthegameasaboutasinterestingasthemathhomeworkmo' \
+                   'stofitsplayersshouldbedoinginsteadofplayingit'
 
     def testPrepareStr(self):
-        text = 'Minecraft is notorious in the gaming world for having absolutely no plot line,' \
-               ' no variation in gameplay and no aim at all. All in all, it makes the game as about' \
-               ' as interesting as the math homework most of its players should be doing instead of playing it.'
-        result = CustomCipher.prepareStr(text)
-        self.assertEqual(self.testText, result)
+        textMinecraft = 'Minecraft is notorious in the gaming world for having absolutely no plot line,' \
+                        ' no variation in gameplay and no aim at all. All in all, it makes the game as about' \
+                        ' as interesting as the math homework most of its players should be doing instead of ' \
+                        'playing it.'
+        result = CustomCipher.prepareStr(textMinecraft)
+        self.assertEqual(self.text, result)
 
     def testCezarMove(self):
-        text = 'abcdefghijklmnopqrstuvwxyz'
-        result = CustomCipher.cezarMove(text, 4)
-        self.assertEqual('efghijklmnopqrstuvwxyzabcd', result)
+        expected = 'qmrigvejxmwrsxsvmsywmrxlikeqmrkasvphjsvlezmrkefwspyxipcrstpsxpmrirszevmexmsrmrkeqitpecerh' \
+                   'rsemqexeppeppmreppmxqeoiwxlikeqiewefsyxewmrxiviwxmrkewxliqexllsqiasvoqswxsjmxwtpecivwwlsy' \
+                   'phfihsmrkmrwxiehsjtpecmrkmx'
+        result = CustomCipher.cezarMove(self.text, 4)
+        self.assertEqual(expected, result)
+
+    def testHomophonicCipher(self):
+        result = self.cc.homophonicCipher(self.text)
+        self.assertEqual(205, len(result))
 
     def testTranspositionCipher(self):
-        text = 'abcdefghijklmnopqrstuvwxyz'
-        result = CustomCipher.transpositionCipher(text, 2)
-        self.assertEqual('acegikmoqsuwybdfhjlnprtvxz', result)
-
-    def testTranspositionDecipher(self):
-        text = 'acegikmoqsuwybdfhjlnprtvxz'
-        result = CustomCipher.transpositionDecipher(text, 2)
-        self.assertEqual('abcdefghijklmnopqrstuvwxyz', result)
+        expected = 'mncatsooiuiteaigolfraigboueyoltieoaitoigmpaa' \
+                   'doiaallialtaeteaesbuaitrsigshmthmwrmsoislyrs' \
+                   'olbdigntaopaigtierfintrosnhgmnwrdohvnasltlnp' \
+                   'olnnvrainnaelynnamtlalnlimkshgmaaotsneetnate' \
+                   'ahoeokotftpaeshudeonisedflyni'
+        result = CustomCipher.transpositionCipher(self.text, 2)
+        self.assertEqual(expected, result)

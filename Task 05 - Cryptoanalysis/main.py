@@ -1,4 +1,5 @@
 from src.CustomCipher import CustomCipher
+from src.CustomDecipher import CustomDecipher
 import re
 import logging
 
@@ -9,8 +10,9 @@ if __name__ == '__main__':
         sourceText = re.sub("[^a-z\s]", "", x, 0, re.IGNORECASE | re.MULTILINE)
 
     cc = CustomCipher()
+    cd = CustomDecipher()
     ciphered = cc.cipherPreview(sourceText)
-    deciphered = cc.decipher(ciphered)
+    deciphered = cd.decipher(ciphered)
 
     if deciphered != cc.prepareStr(sourceText):
         logging.warning('Something went wrong')
