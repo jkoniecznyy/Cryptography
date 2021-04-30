@@ -26,18 +26,29 @@ class Asymmetric:
             Save public and private key on the server
             :rtype: bool
         """
-        logging.info('Asymmetric - Setting kseys')
+        logging.info('Asymmetric - Setting keys')
         self.privateKey = privateKey
         self.publicKey = publicKey
         return True
 
-    def getKeys(self) -> Optional[tuple[RSAPrivateKey, RSAPublicKey]]:
+    # TODO fix this function
+    def setKeysFromHex(self, privateKey: hex, publicKey: hex) -> bool:
         """
-            Get public and private key in the RSA format
-            :rtype: Optional[tuple[RSAPrivateKey, RSAPublicKey]]
+            Save public and private key on the server
+            :rtype: bool
         """
-        logging.info('Asymmetric - Getting keys')
-        return self.privateKey, self.publicKey
+        logging.info('Asymmetric - Setting keys from hex')
+        try:
+            public_key: bytes = bytes.fromhex(publicKey)
+            private_key: bytes = bytes.fromhex(privateKey)
+        except Exception as ex:
+            logging.error(ex)
+            return False
+        print(private_key)
+        print(public_key)
+        self.privateKey = private_key
+        self.publicKey = public_key
+        return True
 
     def getKeysInHex(self) -> Optional[dict[hex, hex]]:
         """
@@ -183,7 +194,7 @@ class Asymmetric:
                     label=None
                 )
             )
-            return plaintext
+            return plaintext.decode()
         except Exception as ex:
             logging.error(ex)
             return None

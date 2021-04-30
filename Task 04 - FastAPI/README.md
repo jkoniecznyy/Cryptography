@@ -1,47 +1,49 @@
-Ćwiczenie 4: FastAPI
+Exercise 04: FastAPI
 
-Zapoznaj się z biblioteką Cryptography powtarzając przykłady z wykładu (szyfrowanie symetryczne, generowanie klucza publicznego i prywatnego, serializacja kluczy, itp.)
+Study the Cryptography library by repeating the examples from the lecture (symmetric encryption, public and private key generation, key serialization, etc.)
 
-Stwórz prosty serwis z API za pomocą https://fastapi.tiangolo.com/ z endpointami:
+Create a simple API service with https://fastapi.tiangolo.com/ with endpoints:
 
-a) symetric:
+a) symmetric:
 
-GET symetric/key -> zwraca losowo wygenerowany klucz symetryczny w postaci HEXów (może być JSON)
+GET symmetric / key -> returns a randomly generated symmetric key in the form of HEX (can be JSON)
 
-POST symetric/key -> ustawia na serwerze klucz symetryczny podany w postaci HEX w request
+POST symmetric / key -> sets the symmetric key in the form of HEX in request on the server
 
-POST symetric/encode -> wysyłamy wiadomość, w wyniku dostajemy ją zaszyfrowaną
+POST symmetric / encode -> we send the message, and as a result we get it encrypted
 
-POST symetric/decode -> wysyłamy wiadomość, w wyniku dostajemy ją odszyfrowaną
+POST symmetric / decode -> we send the message, and as a result we get it decrypted
 
-b) asymetric:
+b) asymmetric:
 
-GET asymetric/key -> zwraca nowy klucz publiczny i prywatny w postaci HEX (w JSON jako dict) i ustawia go na serwerze
+GET asymmetric / key -> returns a new public and private key in HEX form (in JSON as dict) and sets it on the server
 
-GET asymetric/key/ssh -> zwraca klucz publiczny i prywatny w postaci HEX zapisany w formacie OpenSSH
+GET asymmetric / key / ssh -> returns public and private key in HEX format saved in OpenSSH format
 
-POST asymetric/key -> ustawia na serwerze klucz publiczny i prywatny w postaci HEX (w JSON jako dict)
+POST asymmetric / key -> sets the public and private key in the form of HEX (in JSON as dict)
 
-POST asymetric/sign -> korzystając z aktualnie ustawionego klucza prywatnego, podpisuje wiadomość i zwracaą ją podpisaną
+POST asymmetric / sign -> using the currently set private key, signs the message and returns it signed
 
-POST asymetric/verify -> korzystając z aktualnie ustawionego klucza publicznego, weryfikuję czy wiadomość była zaszyfrowana przy jego użyciu
+POST asymmetric / verify -> using the currently set public key, verify that the message was encrypted with it
 
-POST asymetric/encode -> wysyłamy wiadomość, w wyniku dostajemy ją zaszyfrowaną
+POST asymmetric / encode -> we send the message, and as a result we get it encrypted
 
-POST asymetric/decode -> wysyłamy wiadomość, w wyniku dostajemy ją odszyfrowaną
+POST asymmetric / decode -> we send the message, and as a result we get it decrypted
 
 
-Zadbaj o:
-1. Przejrzystość
-2. Docstringi
-3. Jakość kodu i modularność
-4. Obsługę błędów (np. ktoś poda złą wartość dla klucza, to należy zwrócić informacje user-friendly o wyjątku)
-5. Zweryfikuj jakość dokumentacji (generuje się automatycznie jak dobrze zrobisz docstringi)
+Take care of:
+1. Transparency
+2. Docstrings
+3. Code quality and modularity
+4. Error handling (e.g. someone gives a wrong value for the key, user-friendly information about the exception should be returned)
+5. Verify the quality of documentation (it is generated automatically if you do docstrings well)
 
-Dla chętnych:
-1. Dodaj testy jednostkowe do projektu
-2. Użyj jinja2 i zrób prosty Frontend do tego.
+For volunteers:
+1. Add unit tests to the project
+2. Use jinja2 and make a simple frontend for that.
 
+To run fastAPI use following command:
 ```
 uvicorn main:shared --reload
 ```
+then go to http://127.0.0.1:8000/docs

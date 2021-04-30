@@ -10,10 +10,10 @@ asymmetric = Asymmetric()
 
 # Symmetric routes
 @shared.get("/symmetric/key/", tags=["Symmetric"], summary="Generate the symmetric key")
-def getSymmetricKey():
+def getSymmetricKey() -> hex:
     """
         Return a randomly generated symmetric key in the form of HEX
-        :rtype: str
+        :rtype: hex
     """
     return userFriendlyResult(symmetric.generateKey())
 
@@ -22,10 +22,13 @@ def getSymmetricKey():
 def postSymmetricKey(key: str) -> bool:
     """
         Set the public and private key on the server in the form of HEX
-        (in JSON as dict)
+        (in JSON as dict).
+        Set the key without "", for example: 44595....37131343d
         :rtype: bool
     """
-    return userFriendlyResult(symmetric.setKey(key))
+    x = symmetric.setKey(key)
+    print(x)
+    return userFriendlyResult(x)
 
 
 @shared.post("/symmetric/encode/", tags=["Symmetric"], summary="Encrypt given message")
@@ -68,13 +71,14 @@ def getAsymmetricKeySSH():
     return userFriendlyResult(asymmetric.getKeysInSSH())
 
 
-@shared.post("/asymmetric/key/", tags=["Asymmetric"], summary="Set asymmetric keys on the server")
-def postAsymmetricKey(privateKey, publicKey):
-    """
-        Set the public and private key on the server in the form of HEX
-        (in JSON as dict)
-    """
-    return userFriendlyResult(asymmetric.setKeys(privateKey, publicKey))
+# TODO this one dosen't work
+# @shared.post("/asymmetric/key/", tags=["Asymmetric"], summary="Set asymmetric keys on the server")
+# def postAsymmetricKey(privateKey, publicKey):
+#     """
+#         Set the public and private key on the server in the form of HEX
+#         (in JSON as dict)
+#     """
+#     return userFriendlyResult(asymmetric.setKeys(privateKey, publicKey))
 
 
 @shared.post("/asymmetric/sign/", tags=["Asymmetric"], summary="Sign a message")

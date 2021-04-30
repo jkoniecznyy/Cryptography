@@ -27,11 +27,14 @@ class Symmetric:
             logging.error(ex)
             return None
 
-    def setKey(self, key: hex) -> bool:
+    def setKey(self, key: hex) -> Optional[bool]:
         """
+            Check if key doesn't start with ",
             Save a key on the server
             :rtype: bool
         """
+        if key.startswith('\"'):
+            return None
         logging.info('Symmetric - Setting the key')
         self.key = key
         return True
