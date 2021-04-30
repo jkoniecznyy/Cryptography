@@ -1,16 +1,23 @@
-Ćwiczenie 1: Rozgrzewka
+Exercise 01: Warming up
 
-Na dst:
-1. W dowolnym języku programowania wykonaj szyfrator i deszyfrator Cezara i Vigenere'a.
-Wersja konsolowa wystarczy. Miło byłoby, gdyby było jakieś fajne API, walidacja danych wejściowych,
-testy automatyczne.
+On 3:
+1. In any programming language, do Caesar and Vigenere encoder and decryptor.
+The console version is enough. It would be nice if there was some nice API, input validation,
+automatic tests.
 
-Na db:
-1. Wykonaj manualny łamacz szyfru Cezara.
+On 4:
+1. Perform a manual Caesar cipher breaker.
 
-Na bdb:
-1. Wykonaj automatyczny łamacz szyfru Cezara.
+On 5:
+1. Perform an automatic Caesar cipher breaker.
 
-Dla zadań na db i bdb założenia: 1. Alfabet to ASCI. 2. Tekst jawny jest po angielsku. 3. Nie przesadzajcie z
-długością tekstu jawnego. 4. Jakość kodu też się liczy. Czyli komentarze, zasady clean code i SOLID,
-testy jednostkowe, walidacja danych i takie tam.
+Assumptions for tasks on 4 and 5 : 
+
+1. The alphabet is ASCI.
+
+2. The plain text is in English.
+
+3. Don't overdo it the length of the plaintext.
+
+4. Code quality also matters. So comments, clean code and SOLID rules,
+unit testing, data validation and stuff.

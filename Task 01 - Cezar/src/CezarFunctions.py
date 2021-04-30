@@ -10,17 +10,19 @@ class CezarFunctions:
 
     @staticmethod
     def prepareString(text: str) -> str:
-        # Takes a string
-        # Makes it lowercase and leaves only english lowercase letters
-        # Returns a string
+        """
+            Convert a string to lowercase and return only basic english characters
+            :rtype: str
+        """
         text = text.lower()
         return re.sub(r"[^a-z]", "", text)
 
     @staticmethod
     def makeMove(inputText: str, number: int) -> str:
-        # Takes a string and an int (positive or negative).
-        # Moves the ascii code of all the letters from a given text by the provided number.
-        # Returns a string
+        """
+            Move the ascii code of all the letters from a given text by the provided number.
+            :rtype: str
+        """
         outputText = ''
         number = number % 26
         for letter in inputText:
@@ -34,25 +36,28 @@ class CezarFunctions:
 
     @staticmethod
     def encryption(inputText: str, number: int) -> str:
-        # Takes a string and an int (should be positive).
-        # Prepares the text and calls the makeMove function with given parameters
-        # Returns a string
+        """
+            Prepare the text and call the makeMove function with given parameters
+            :rtype: str
+        """
         inputText = CezarFunctions.prepareString(inputText)
         return CezarFunctions.makeMove(inputText, number)
 
     @staticmethod
     def decryption(inputText: str, number: int) -> str:
-        # Takes a string and an int (should be positive).
-        # Prepares the text and calls the makeMove function with given parameters, but with opposite number
-        # Returns a string
+        """
+            Prepare the text and call the makeMove function with given parameters, but with opposite number
+            :rtype: str
+        """
         inputText = CezarFunctions.prepareString(inputText)
         return CezarFunctions.makeMove(inputText, -number)
 
     @staticmethod
     def fullDecryption(inputText: str) -> list[str]:
-        # Takes a string
-        # Makes sure the text is made of lowercase english letters and does a bruteforce decryption
-        # Returns a string list containing 26 decrypted versions
+        """
+            Make sure the text is made of lowercase english letters and do a bruteforce decryption
+            :rtype: string list containing 26 decrypted versions
+        """
         inputText = CezarFunctions.prepareString(inputText)
         decryptedTextList = []
         for i in range(1, 27):
@@ -61,9 +66,10 @@ class CezarFunctions:
 
     @staticmethod
     def manualDecryption(encryptedText: str) -> Optional[str]:
-        # Takes a string
-        # Calls fullDecryption, prints the results to the user and allows him to choose which one is right
-        # Returns a string chose by the user or None if he didn't choose any value
+        """
+            Call fullDecryption, print the results to the user and allow him to choose which one is right
+            :rtype: string chose by the user or None if he didn't choose any value
+        """
         decryptedTextList = CezarFunctions.fullDecryption(encryptedText)
         for i in range(26):
             print(f'Nr {i + 1} - {decryptedTextList[i]}')
@@ -75,9 +81,10 @@ class CezarFunctions:
 
     @staticmethod
     def calculateLettersProbability(text: str) -> float:
-        # Takes a string
-        # Calculates a score telling if it is a english text considering english letters probabilities
-        # Returns a double (the less the better)
+        """
+            Calculate a score telling if it is a english text considering english letters probabilities
+            :rtype: float (the less the better)
+        """
         englishLettersProbabilities = [0.073, 0.009, 0.030, 0.044, 0.130, 0.028, 0.016, 0.035, 0.074,
                                        0.002, 0.003, 0.035, 0.025, 0.078, 0.074, 0.027, 0.003,
                                        0.077, 0.063, 0.093, 0.027, 0.013, 0.016, 0.005, 0.019, 0.001]
@@ -89,9 +96,10 @@ class CezarFunctions:
 
     @staticmethod
     def automaticDecryption(encryptedText: str) -> str:
-        # Takes a string
-        # Calls the fullDecryption and calculates a score for every result
-        # Returns a string of the lowest score
+        """
+            Call the fullDecryption and calculate a score for every result
+            :rtype: string with the lowest score
+        """
         decryptedTextList = CezarFunctions.fullDecryption(encryptedText)
         scores = []
         for text in decryptedTextList:
