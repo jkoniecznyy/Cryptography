@@ -8,6 +8,11 @@ body {
     font-size: 22px;
 }
 
+.aksforfunding{
+    font-size: 12px;
+    letter-spacing: 0px;
+}
+
 .content {
     max-width: 980px;
     margin-left: auto;
@@ -15,7 +20,7 @@ body {
 }
 
 .custombg {
-    background-color: #e2f1f8;
+    background-color: #eaeaea;
     color: black;
     text-shadow: white 0px 0px 10px;
 }

@@ -17,22 +17,18 @@ Add interesting graphics and come up with your "shitcoin".
 Installation
 
 1. Make sure [Python 3.6+](https://www.python.org/downloads/) is installed. 
-2. Install [pipenv](https://github.com/kennethreitz/pipenv). 
-
+2. Install backend.
 ```
 $ pip install pipenv 
-```
-3. Install requirements  
-```
 $ pipenv install 
 ``` 
-4. Install frontend
+3. Install frontend
 ```
 cd frontend/
 npm install
 ```
-5. Run server and frontend in two separate consoles:
+4. Run backend and frontend in two separate consoles:
     * `/Task 07 - Blockchain/> pipenv run python main.py` 
     * `/Task 07 - Blockchain/frontend> npm run serve`
    
-6. Use postman or go to http://localhost:8080/
+5. Use postman or go to http://localhost:8080/

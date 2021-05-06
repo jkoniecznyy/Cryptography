@@ -4,7 +4,8 @@
     <div class="w3-bar w3-white w3-wide w3-padding w3-top w3-card" >
       <img src="../assets/logo.png" class="w3-bar-item w3-button" id="logo" alt="Rick Astrley" width="100"
            height="100">
-      <p class="w3-bar-item w3-button"><b>RAC</b>- Rick Astley Coin</p>
+      <p class="w3-bar-item"><b>RAC</b> - Rick Astley Totally Shitty Coin </p>
+      <p class="aksforfunding"> (please donate me via paypal to help me develop this project 😇)</p>
     </div>
     <br/>
     <br/>
@@ -14,16 +15,17 @@
     <!-- Content -->
     <div class="content w3-padding">
 
+      <hr>
       <button @click="network" class="w3-button">
         Test if network works
         <img src="../assets/network.jpg" class="w3-bar-item w3-button" id="network" alt="network" width="80"
              height="50">
       </button>
-
-      <h1 v-if="networkCheck"> The network is working properly
-        <img src="../assets/network2.jpg" class="w3-bar-item w3-button" id="network2" alt="network2" width="80"
-             height="50"></h1>
+      <hr>
+      <h1 v-if="networkCheck"> The network is working properly 😍 </h1>
       <h1 v-if="!networkCheck"> The network is probably down 😔 </h1>
+
+      <hr>
 
       <form @submit="onSubmit" autocomplete="off">
         <p> Create New Transaction </p>
@@ -38,20 +40,25 @@
         </button>
       </form>
 
+      <hr>
       <button @click="mine" class="w3-button w3-section">
         Let's mine!
         <img src="../assets/mcpickaxe.png" class="w3-bar-item w3-button" id="pickaxe" alt="Pickaxe" width="80"
              height="50">
       </button>
       <br/>
+      <hr>
       <pre v-if="mined" class="w3-card custombg">{{ JSON.stringify(minedData, null, '\t') }}</pre>
 
 
+      <hr>
       <button @click="chain" class="w3-button w3-section">
         Get chain!
         <img src="../assets/chain.jpg" class="w3-bar-item w3-button" id="chain" alt="Chain" width="80"
              height="50">
       </button>
+
+      <hr>
       <pre v-if="chained" class="w3-card custombg">{{ JSON.stringify(chainedData, null, 2) }}</pre>
 
     </div>
