@@ -26,9 +26,13 @@ $ pip install pipenv
 ```
 $ pipenv install 
 ``` 
-
-4. Run the server:
-    * `$ pipenv run python main.py` 
-    * `$ pipenv run python main.py -p 5001`
-    * `$ pipenv run python main.py --port 5002`
-    
+4. Install frontend
+```
+cd frontend/
+npm install
+```
+5. Run server and frontend in two separate consoles:
+    * `/Task 07 - Blockchain/> pipenv run python main.py` 
+    * `/Task 07 - Blockchain/frontend> npm run serve`
+   
+6. Use postman or go to http://localhost:8080/
