@@ -13,11 +13,22 @@ Add interesting graphics and come up with your "shitcoin".
 
 [Link from lecture](https://hackernoon.com/learn-blockchains-by-building-one-117428612f46)
 
-Setup
-```
-// Create your own pyton venv and then:
-pip install fastapi
-pip install uvicorn
 
-uvicorn main:shared --reload
+Installation
+
+1. Make sure [Python 3.6+](https://www.python.org/downloads/) is installed. 
+2. Install [pipenv](https://github.com/kennethreitz/pipenv). 
+
 ```
+$ pip install pipenv 
+```
+3. Install requirements  
+```
+$ pipenv install 
+``` 
+
+4. Run the server:
+    * `$ pipenv run python main.py` 
+    * `$ pipenv run python main.py -p 5001`
+    * `$ pipenv run python main.py --port 5002`
+    
