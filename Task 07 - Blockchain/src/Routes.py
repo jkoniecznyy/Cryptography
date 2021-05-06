@@ -2,7 +2,6 @@ from uuid import uuid4
 from flask import Flask, jsonify, request
 from src.Blockchain import Blockchain
 
-
 # Instantiate the Node
 app = Flask(__name__)
 
@@ -13,7 +12,16 @@ mainRecipient = 'Rick Astley'
 blockchain = Blockchain()
 
 
-@app.route('/mine', methods=['GET'])
+@app.route('/api/networkstatus', methods=['GET'])
+def getNetworkStatus():
+    """
+
+        :rtype: str
+    """
+    return 'The network is working properly'
+
+
+@app.route('/api/mine', methods=['GET'])
 def mine():
     # We run the proof of work algorithm to get the next proof...
     last_block = blockchain.last_block
@@ -41,7 +49,7 @@ def mine():
     return jsonify(response), 200
 
 
-@app.route('/transactions/new', methods=['POST'])
+@app.route('/api/transactions/new', methods=['POST'])
 def new_transaction():
     values = request.get_json()
 
@@ -57,7 +65,7 @@ def new_transaction():
     return jsonify(response), 201
 
 
-@app.route('/chain', methods=['GET'])
+@app.route('/api/chain', methods=['GET'])
 def full_chain():
     response = {
         'chain': blockchain.chain,
@@ -66,7 +74,7 @@ def full_chain():
     return jsonify(response), 200
 
 
-@app.route('/nodes/register', methods=['POST'])
+@app.route('/api/nodes/register', methods=['POST'])
 def register_nodes():
     values = request.get_json()
 
@@ -84,7 +92,7 @@ def register_nodes():
     return jsonify(response), 201
 
 
-@app.route('/nodes/resolve', methods=['GET'])
+@app.route('/api/nodes/resolve', methods=['GET'])
 def consensus():
     replaced = blockchain.resolve_conflicts()
 
