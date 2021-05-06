@@ -1,11 +1,23 @@
-#Task 07: Blockchain
+Task 07: Blockchain
 
-##Description
-Zaimplementuj własną sieć blockchain analogiczną do linków przedstawionych na wykładzie.
+Description
 
-Wiadomości mogą dotyczyć dowolnej rzeczy: od świata finansowego, do własnego budżetu czy kolekcji znaczków pocztowych
-Zadbaj, aby był to pełnoprawny projekt łatwy w obsłudze dla przeciętnego człowieka (a więc podstawowy frontend się przyda)
-Dodaj API do wykonywania "transakcji", pobierania stanu portfela, stanu sieci, liczby bloków w łańcuchu, itp.
+Implement your own blockchain network similar to the links presented in the lecture.
 
-##Optional
-Dołóż ciekawe grafiki i wymyśl swoją "shitcoin".
+The news can be about anything: financial world, your own budget, or even the collection of postage stamps.
+Make sure that it is a full-fledged project easy to use for the average person (so the basic frontend will be useful).
+Add API to perform transactions, get wallet status, network status, number of blocks in a chain, etc.
+
+Optional
+Add interesting graphics and come up with your "shitcoin".
+
+[Link from lecture](https://hackernoon.com/learn-blockchains-by-building-one-117428612f46)
+
+Setup
+```
+// Create your own pyton venv and then:
+pip install fastapi
+pip install uvicorn
+
+uvicorn main:shared --reload
+```
