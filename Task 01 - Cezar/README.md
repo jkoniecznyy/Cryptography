@@ -1,7 +1,7 @@
 Exercise 01: Warming up
 
 On 3:
-1. In any programming language, do Caesar and Vigenere encoder and decryptor.
+1. In any programming language, do Caesar and Vigenere (optional) encoder and decryptor.
 The console version is enough. It would be nice if there was some nice API, input validation,
 automatic tests.
 
@@ -17,7 +17,7 @@ Assumptions for tasks on 4 and 5 :
 
 2. The plain text is in English.
 
-3. Don't overdo it the length of the plaintext.
+3. Don't overdo the length of a plaintext.
 
 4. Code quality also matters. So comments, clean code and SOLID rules,
 unit testing, data validation and stuff.

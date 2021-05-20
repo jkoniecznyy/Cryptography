@@ -42,7 +42,13 @@ For volunteers:
 1. Add unit tests to the project
 2. Use jinja2 and make a simple frontend for that.
 
-To run fastAPI use following command:
+Setup:
+```
+pip install fastapi
+pip install uvicorn
+```
+
+To run the API use following command:
 ```
 uvicorn main:shared --reload
 ```

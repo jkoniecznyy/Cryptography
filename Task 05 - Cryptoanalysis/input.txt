@@ -1,0 +1,39 @@
+Over the course of eight years, GitHub Education has served
+millions of students at thousands of schools. Version control offers
+a number of affordances for students and teachers who use it to take
+snapshots of their work, roll back to a known good state, and
+collaborate on group projects. Students are motivated to build their
+portfolios, learn industry best practices, and connect with hiring
+managers. Teachers use Git and GitHub to automate their course
+workflows and integrate real-world workflows. In fact, using GitHub in
+the classroom predicts learning outcomes such as project
+management, belonging in the field, and preparation for future work.
+Teaching for the first job in industry
+Teachers everywhere are pressed for time and resources. GitHub
+Classroom, a tool to run courses on GitHub, lets teachers automate
+assignment creation, access control, and track student progress.
+Teachers often use their choice of continuous integration and
+continuous delivery tools to automate feedback when students push
+their code. This spring, GitHub Classroom added “autograding,” which
+is an implementation of GitHub Actions. As of September 30, 14% of
+assignments on Classroom use autograding and 360,579 tests have
+been run across 67,398 repositories, preparing students for test-driven
+development in the workplace.
+Hands-on learning with distributed teams
+In the spring of 2020, students who hoped to gain valuable experience
+in summer internships began to receive disheartening news. Many
+technical organizations couldn’t host students on-site and the
+recession reduced funds for recruitment.
+Together with a coalition of companies, GitHub and Major League Hacking
+launched the MLH Fellowship, which connected students with a paid open
+source summer project and paid a mentor to review their contributions.
+Of the maintainers from the 36 open source projects, 76.2% reported that
+their project was in a better state after the MLH Fellowship. The program
+has evolved to three different tracks, with Facebook and AWS participating
+again in the fall of 2020.
+The common area in the cloud
+Students are eager to find ways to connect and continue their learning
+journeys. When it became clear that most seniors would not have a
+typical graduation, GitHub Education offered a unique experience:
+git remote graduation. By submitting a pull request, seniors could add
+themselves to the “Class of 2020,”

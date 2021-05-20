@@ -1,7 +1,5 @@
 Task 07: Blockchain
 
-Description
-
 Implement your own blockchain network similar to the links presented in the lecture.
 
 The news can be about anything: financial world, your own budget, or even the collection of postage stamps.
