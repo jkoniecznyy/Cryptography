@@ -7,11 +7,9 @@ np.set_printoptions(threshold=sys.maxsize)
 
 class Steganography:
 
-    def __init__(self):
-        print('Class created')
-
     # encoding function
-    def Encode(self, src, message, dest):
+    @staticmethod
+    def Encode(src, message, dest):
         img = Image.open(src, 'r')
         width, height = img.size
         array = np.array(list(img.getdata()))
@@ -28,7 +26,7 @@ class Steganography:
         req_pixels = len(b_message)
 
         if req_pixels > total_pixels:
-            print("ERROR: Need larger file size")
+            return "ERROR: Need larger file size"
 
         else:
             index = 0
@@ -41,10 +39,11 @@ class Steganography:
             array = array.reshape(height, width, n)
             enc_img = Image.fromarray(array.astype('uint8'), img.mode)
             enc_img.save(dest)
-            print("Image Encoded Successfully")
+            return "Image Encoded Successfully"
 
     # decoding function
-    def Decode(self, src):
+    @staticmethod
+    def Decode(src):
         img = Image.open(src, 'r')
         array = np.array(list(img.getdata()))
 
@@ -69,6 +68,6 @@ class Steganography:
             else:
                 message += chr(int(hidden_bits[i], 2))
         if "$t3g0" in message:
-            print("Hidden Message:", message[:-5])
+            return message[:-5]
         else:
-            print("No Hidden Message Found")
+            return "No Hidden Message Found"

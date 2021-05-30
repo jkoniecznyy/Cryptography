@@ -7,7 +7,6 @@ from src.CustomDecipher import CustomDecipher
 app = Flask(__name__)
 
 # Instantiate objects
-st = Steganography()
 cc = CustomCipher()
 cd = CustomDecipher()
 
@@ -22,15 +21,23 @@ def getNetworkStatus():
 
 
 @app.route('/api/st/encode', methods=['POST'])
-def stEncode(src, message, dest):
-    response = st.Encode(src, message, dest)
+def stEncode():
+    values = request.get_json()
+    # Check that the required fields are in the POST'ed data
+    required = ['src', 'message', 'dest']
+    if not all(k in values for k in required):
+        return 'Missing values', 400
+
+    response = Steganography.Encode(values['src'], values['message'], values['dest'])
     return jsonify(response), 200
 
 
 @app.route('/api/st/decode', methods=['POST'])
-def stDecode(src):
-    response = st.Decode(src)
-    return jsonify(response), 200
+def stDecode():
+    text = getTextFromResponse(request.get_json())
+    if not text:
+        return jsonify('Missing the text value'), 400
+    return jsonify(Steganography.Decode(text)), 200
 
 
 @app.route('/api/cipher/encode', methods=['POST'])
