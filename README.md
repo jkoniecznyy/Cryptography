@@ -10,3 +10,4 @@ The tasks were prepared by [Tomasz Jach](https://github.com/tjach/ue-cyrpto).
 - [x] [Task 04](https://github.com/jkoniecznyy/Cryptography/tree/main/Task%2004%20-%20FastAPI) - Create an API allowing the user to use the Symmetric and Asymmetric functions from the Cryptography library
 - [x] [Task 05](https://github.com/jkoniecznyy/Cryptography/tree/main/Task%2005%20-%20Cryptoanalysis) - Create your own cipher
 - [x] [Task 07](https://github.com/jkoniecznyy/Cryptography/tree/main/Task%2007%20-%20Blockchain) - Create your own blockchain
+- [x] [Task 10](https://github.com/jkoniecznyy/Cryptography/tree/main/Task%2010%20-%20Steganography) - Design and write a steganography program
