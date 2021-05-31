@@ -44,7 +44,10 @@ class CustomDecipher:
             Decipher a transposition in a given text using the key value
             :rtype: str
         """
-        numCols = math.ceil(len(text) / key)
+        try:
+            numCols = math.ceil(len(text) / key)
+        except TypeError:
+            return "ERROR: Wrong data passed to deciphering!"
         numRows = key
         numShadedBoxes = (numCols * numRows) - len(text)
         plainText = [""] * numCols

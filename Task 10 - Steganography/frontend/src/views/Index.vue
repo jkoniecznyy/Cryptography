@@ -4,11 +4,56 @@
     <!-- Content -->
     <div class="content w3-padding">
       <div>
+        <form @submit="stEncode" autocomplete="off">
+          <p>
+            Hide a message in the image (this one can take a few seconds) <br>
+            When you type the name instead of '/img/img1.png' type 'img1'
+          </p>
+          <label>
+            <input v-model="stEncodedSource" class="w3-input w3-section w3-border" type="text"
+                   placeholder="Please type the source image name here " required
+                   name="stDecSrc">
+            <input v-model="stEncodedMessage" class="w3-input w3-section w3-border" type="text"
+                   placeholder="Please type the message here" required
+                   name="stDecSrc">
+          </label>
+          <button class="w3-button w3-black w3-section">
+            <i class="fa fa-paper-plane"></i> Hide the message!
+          </button>
+        </form>
+
+        <p v-if="stEncodedResult">
+          {{ stEncodedResult }}
+          <br>
+          <img src='../../public/img/hidden.png'
+               alt="Your encoded image"
+               width="300" height="300">
+        </p>
+        <hr>
+      </div>
+
+      <div>
+        <form @submit="stDecode" autocomplete="off">
+          <p>
+            Read hidden message from the image (this one can take a few more seconds) <br>
+          </p>
+          <button class="w3-button w3-black w3-section">
+            <i class="fa fa-paper-plane"></i> Read the message!
+          </button>
+        </form>
+
+        <p v-if="stDecodedResult"> Your hidden message: {{ stDecodedResult }} </p>
+        <hr>
+      </div>
+
+      <h1> Bonus options: </h1>
+      <hr>
+      <div>
         <form @submit="cipher" autocomplete="off">
-          <p> Cipher your text before Steganography </p>
+          <p> Cipher your text </p>
           <label>
             <input v-model="cipheredSourceText" class="w3-input w3-section w3-border" type="text"
-                   placeholder="Please type the text to be ciphered here" required
+                   placeholder="Please type the plain text here" required
                    name="cipheredSourceText">
           </label>
           <button class="w3-button w3-black w3-section">
@@ -18,7 +63,6 @@
         <p v-if="cipheredText"> Your cipheredText: {{ cipheredText }} </p>
         <hr>
       </div>
-
       <div>
         <form @submit="decipher" autocomplete="off">
           <p> Decipher your text</p>
@@ -36,45 +80,6 @@
         <hr>
       </div>
 
-      <div>
-        <form @submit="stEncode" autocomplete="off">
-          <p> Hide a message in the image (this one can take a few seconds)</p>
-          <label>
-            <input v-model="stEncSrc" class="w3-input w3-section w3-border" type="text"
-                   placeholder="Please type the source image path here" required
-                   name="stDecSrc">
-            <input v-model="stEncMessage" class="w3-input w3-section w3-border" type="text"
-                   placeholder="Please type the message here" required
-                   name="stDecSrc">
-            <input v-model="stEncDestination" class="w3-input w3-section w3-border" type="text"
-                   placeholder="Please type the new image path here" required
-                   name="stDecSrc">
-          </label>
-          <button class="w3-button w3-black w3-section">
-            <i class="fa fa-paper-plane"></i> Hide the message!
-          </button>
-        </form>
-
-        <p v-if="stEncResult"> {{ stEncResult }} </p>
-        <hr>
-      </div>
-
-      <div>
-        <form @submit="stDecode" autocomplete="off">
-          <p> Read hidden message from the image (this one can take a few seconds)</p>
-          <label>
-            <input v-model="stDecSrc" class="w3-input w3-section w3-border" type="text"
-                   placeholder="Please type the image path here" required
-                   name="stDecSrc">
-          </label>
-          <button class="w3-button w3-black w3-section">
-            <i class="fa fa-paper-plane"></i> Read the message!
-          </button>
-        </form>
-
-        <p v-if="stDecResult"> Your hidden message: {{ stDecResult }} </p>
-        <hr>
-      </div>
     </div>
   </div>
 </template>
@@ -87,30 +92,50 @@ export default {
   name: 'Index',
   data() {
     return {
+      stEncodedSource: '',
+      stEncodedMessage: '',
+      stEncodedResult: '',
+      stDecodedResult: '',
       cipheredSourceText: '',
       cipheredText: '',
       decipheredSourceText: '',
       decipheredText: '',
-      stEncSrc: '',
-      stEncMessage: '',
-      stEncDestination: '',
-      stEncResult: '',
-      stDecSrc: '',
-      stDecResult: '',
     }
   },
   methods: {
+    async stEncode(e) {
+      e.preventDefault()
+      try {
+        let res = await axios.post(`${url}st/encode`, {
+          "src": `${this.stEncodedSource}.png`,
+          "message": this.stEncodedMessage,
+          "dest": 'hidden.png'
+        });
+        this.stEncodedResult = res.data;
+      } catch (err) {
+        this.stEncodedResult = 'Something went wrong, please check if the server is running and the data is correct';
+      }
+    },
+    async stDecode(e) {
+      e.preventDefault()
+      try {
+        let res = await axios.post(`${url}st/decode`, {
+          "src": 'hidden.png'
+        });
+        this.stDecodedResult = res.data;
+      } catch (err) {
+        this.stDecodedResult = 'Something went wrong, please check if the server is running and the data is correct';
+      }
+    },
     async cipher(e) {
       e.preventDefault()
       try {
         let res = await axios.post(`${url}cipher/encode`, {
           "text": this.cipheredSourceText,
         });
-        console.log(res.data)
         this.cipheredText = res.data;
       } catch (err) {
-        console.log('Request failed')
-        this.decipheredText = 'Something went wrong, please try again later';
+        this.decipheredText = 'Something went wrong, please check if the server is running and the data is correct';
       }
     },
     async decipher(e) {
@@ -119,39 +144,9 @@ export default {
         let res = await axios.post(`${url}cipher/decode`, {
           "text": this.decipheredSourceText,
         });
-        console.log(res.data)
         this.decipheredText = res.data;
       } catch (err) {
-        console.log('Request failed')
-        this.decipheredText = 'Something went wrong, please try again later';
-      }
-    },
-    async stEncode(e) {
-      e.preventDefault()
-      try {
-        let res = await axios.post(`${url}st/encode`, {
-          "src": `img/${this.stEncSrc}`,
-          "message": this.stEncMessage,
-          "dest": `img/${this.stEncDestination}`
-        });
-        console.log(res.data)
-        this.stEncResult = res.data;
-      } catch (err) {
-        console.log('Request failed')
-        this.stEncResult = 'Something went wrong, please try again later';
-      }
-    },
-    async stDecode(e) {
-      e.preventDefault()
-      try {
-        let res = await axios.post(`${url}st/decode`, {
-          "text": `img/${this.stDecSrc}`,
-        });
-        console.log(res.data)
-        this.stDecResult = res.data;
-      } catch (err) {
-        console.log('Request failed')
-        this.stDecResult = 'Something went wrong, please try again later';
+        this.decipheredText = 'Something went wrong, please check if the server is running and the data is correct';
       }
     },
   }

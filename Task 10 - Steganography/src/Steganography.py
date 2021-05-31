@@ -7,10 +7,25 @@ np.set_printoptions(threshold=sys.maxsize)
 
 class Steganography:
 
-    # encoding function
-    @staticmethod
-    def Encode(src, message, dest):
-        img = Image.open(src, 'r')
+    def __init__(self):
+        """
+            Set the image directory
+        """
+        self.imgDir = 'frontend/public/img/'
+
+    def Encode(self, src: str, message: str, destination: str) -> str:
+        """
+            Encode the message in the src png image and save the result to the destination path
+            :rtype: str
+        """
+        src = self.imgDir + src
+        destination = self.imgDir + destination
+
+        try:
+            img = Image.open(src, 'r')
+        except FileNotFoundError:
+            return "ERROR: Source file doesn't exist!"
+
         width, height = img.size
         array = np.array(list(img.getdata()))
 
@@ -38,13 +53,21 @@ class Steganography:
 
             array = array.reshape(height, width, n)
             enc_img = Image.fromarray(array.astype('uint8'), img.mode)
-            enc_img.save(dest)
+            enc_img.save(destination)
             return "Image Encoded Successfully"
 
-    # decoding function
-    @staticmethod
-    def Decode(src):
-        img = Image.open(src, 'r')
+    def Decode(self, src: str) -> str:
+        """
+            Decode the message from the src png and return it
+            :rtype: str
+        """
+        src = self.imgDir + src
+
+        try:
+            img = Image.open(src, 'r')
+        except FileNotFoundError:
+            return "ERROR: Source file doesn't exist!"
+
         array = np.array(list(img.getdata()))
 
         if img.mode == 'RGB':

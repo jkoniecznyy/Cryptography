@@ -8,6 +8,9 @@ module.exports = {
             '/api': {
                 target: `http://localhost:5000/`
             }
+        },
+        watchOptions: {
+            ignored: [/node_modules/, /public/],
         }
     }
 }

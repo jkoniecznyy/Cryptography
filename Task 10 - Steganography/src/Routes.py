@@ -9,40 +9,59 @@ app = Flask(__name__)
 # Instantiate objects
 cc = CustomCipher()
 cd = CustomDecipher()
-
-
-@app.route('/api/networkstatus', methods=['GET'])
-def getNetworkStatus():
-    """
-
-        :rtype: str
-    """
-    return 'The network is working properly'
+st = Steganography()
 
 
 @app.route('/api/st/encode', methods=['POST'])
 def stEncode():
+    """
+        Check if all the data is provided correctly and call the Steganography.Encode function
+        Example:
+            {
+                "src": "img1.png",
+                "message": "Studenci powinni czesciej chodzic na piwo",
+                "dest": "hidden.png"
+            }
+        :rtype: str
+    """
     values = request.get_json()
-    print(values)
-    # Check that the required fields are in the POST'ed data
     required = ['src', 'message', 'dest']
     if not all(k in values for k in required):
         return 'Missing values', 400
 
-    response = Steganography.Encode(values['src'], values['message'], values['dest'])
+    response = st.Encode(values['src'], values['message'], values['dest'])
     return jsonify(response), 200
 
 
 @app.route('/api/st/decode', methods=['POST'])
 def stDecode():
-    text = getTextFromResponse(request.get_json())
-    if not text:
-        return jsonify('Missing the text value'), 400
-    return jsonify(Steganography.Decode(text)), 200
+    """
+        Check if the response contains the "src" field and call the Steganography.Decode function
+        Example:
+            {
+                "src": "hidden.png"
+            }
+        :rtype: str
+    """
+    data = request.get_json()
+    try:
+        if not data['src']:
+            return jsonify('Missing the src value'), 400
+        return jsonify(st.Decode(data['src'])), 200
+    except KeyError:
+        return jsonify('Missing the src value'), 400
 
 
 @app.route('/api/cipher/encode', methods=['POST'])
 def cipherEncode():
+    """
+        Check if all the data is provided correctly and call the CustomCipher.cipher function
+        Example:
+            {
+                "text": "Studenci powinni czesciej chodzic na piwo"
+            }
+        :rtype: str
+    """
     text = getTextFromResponse(request.get_json())
     print(text)
     if not text:
@@ -52,6 +71,14 @@ def cipherEncode():
 
 @app.route('/api/cipher/decode', methods=['POST'])
 def cipherDecode():
+    """
+        Check if all the data is provided correctly and call the CustomDecipher.decipher function
+        Example:
+            {
+                "text": "bcnvrprmawvjkpfehbnbcfmavpavaprqqvjvbrpgua"
+            }
+        :rtype: str
+    """
     text = getTextFromResponse(request.get_json())
     if not text:
         return jsonify('Missing the text value'), 400
@@ -59,8 +86,10 @@ def cipherDecode():
 
 
 def getTextFromResponse(response):
+    """
+        Check if the response contains the "text" field
+    """
     try:
-        print(response)
         if not response['text']:
             return None
         return response['text']
