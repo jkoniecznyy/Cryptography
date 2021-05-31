@@ -1,4 +1,4 @@
-from src.secret import move1, move2, words, emojiLetters
+from src.secret import move1, move2, words
 from src.CustomCipher import CustomCipher
 import math
 
@@ -12,7 +12,6 @@ class CustomDecipher:
         self.move1 = move1
         self.move2 = move2
         self.words = words
-        self.emojiLetters = emojiLetters
         pass
 
     def decipher(self, cipheredText: str) -> str:
@@ -21,9 +20,8 @@ class CustomDecipher:
             :rtype: str
         """
         step1 = self.transpositionDecipher(cipheredText, self.move2)
-        step2 = self.homophonicDecipher(step1)
-        step3 = self.cezarDecipher(step2)
-        deciphered = self.transpositionDecipher(step3, self.move1)
+        step2 = self.cezarDecipher(step1)
+        deciphered = self.transpositionDecipher(step2, self.move1)
         return deciphered
 
     def cezarDecipher(self, inputText: str):
@@ -39,19 +37,6 @@ class CustomDecipher:
                 keyCharNumber = ord(keyChar) - 97
                 realText = inputText[keyWordLen + 1:]
                 return CustomCipher.cezarMove(realText, -keyCharNumber)
-
-    def homophonicDecipher(self, inputText: str) -> str:
-        """
-            Decipher a homophonic cipher
-            :rtype: str
-        """
-        outputText = ''
-        for inputLetter in inputText:
-            for dictionaryLetter in self.emojiLetters:
-                for emoji in self.emojiLetters[dictionaryLetter]:
-                    if inputLetter == emoji:
-                        outputText += dictionaryLetter
-        return outputText
 
     @staticmethod
     def transpositionDecipher(text: str, key: int) -> str:

@@ -23,6 +23,7 @@ def getNetworkStatus():
 @app.route('/api/st/encode', methods=['POST'])
 def stEncode():
     values = request.get_json()
+    print(values)
     # Check that the required fields are in the POST'ed data
     required = ['src', 'message', 'dest']
     if not all(k in values for k in required):
@@ -43,6 +44,7 @@ def stDecode():
 @app.route('/api/cipher/encode', methods=['POST'])
 def cipherEncode():
     text = getTextFromResponse(request.get_json())
+    print(text)
     if not text:
         return jsonify('Missing the text value'), 400
     return jsonify(cc.cipher(text)), 200
@@ -58,6 +60,7 @@ def cipherDecode():
 
 def getTextFromResponse(response):
     try:
+        print(response)
         if not response['text']:
             return None
         return response['text']

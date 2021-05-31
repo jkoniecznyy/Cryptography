@@ -1,5 +1,6 @@
 import unittest
 from src.CustomDecipher import CustomDecipher
+from src.CustomCipher import CustomCipher
 
 
 class CustomDecipherTest(unittest.TestCase):
@@ -7,16 +8,12 @@ class CustomDecipherTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.cd = CustomDecipher()
+        cls.cc = CustomCipher()
 
-    def testHomophonicDecipher(self):
-        text = '💍🥩🛌👉👑🧳'
-        result = self.cd.homophonicDecipher(text)
-        self.assertEqual(6, len(result))
-
-    def testHomophonicDecipherZero(self):
-        text = 'abcdefghijklmnopqrstuvwxyz'
-        result = self.cd.homophonicDecipher(text)
-        self.assertEqual(0, len(result))
+    def testCezarDecipher(self):
+        text = 'meyyacegikmoqsuwzbdfhjlnprtvx'
+        result = self.cd.cezarDecipher(text)
+        self.assertEqual('acegikmoqsuwybdfhjlnprtvxz', result)
 
     def testTranspositionDecipher(self):
         text = 'acegikmoqsuwybdfhjlnprtvxz'

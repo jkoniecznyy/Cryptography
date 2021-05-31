@@ -26,10 +26,6 @@ class CustomCipherTest(unittest.TestCase):
         result = CustomCipher.cezarMove(self.text, 4)
         self.assertEqual(expected, result)
 
-    def testHomophonicCipher(self):
-        result = self.cc.homophonicCipher(self.text)
-        self.assertEqual(205, len(result))
-
     def testTranspositionCipher(self):
         expected = 'mncatsooiuiteaigolfraigboueyoltieoaitoigmpaa' \
                    'doiaallialtaeteaesbuaitrsigshmthmwrmsoislyrs' \

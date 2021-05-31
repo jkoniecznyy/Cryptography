@@ -1,4 +1,4 @@
-from src.secret import move1, move2, words, emojiLetters
+from src.secret import move1, move2, words
 import re
 import random
 import string
@@ -14,7 +14,6 @@ class CustomCipher:
         self.move1 = move1
         self.move2 = move2
         self.words = words
-        self.emojiLetters = emojiLetters
         pass
 
     def cipher(self, sourceText: str) -> str:
@@ -25,8 +24,7 @@ class CustomCipher:
         inputText = self.prepareStr(sourceText)
         step1 = self.transpositionCipher(inputText, self.move1)
         step2 = self.cezarCipher(step1)
-        step3 = self.homophonicCipher(step2)
-        ciphered = self.transpositionCipher(step3, self.move2)
+        ciphered = self.transpositionCipher(step2, self.move2)
         return ciphered
 
     def cipherPreview(self, sourceText: str) -> str:
@@ -38,12 +36,10 @@ class CustomCipher:
         inputText = self.prepareStr(sourceText)
         step1 = self.transpositionCipher(inputText, self.move1)
         step2 = self.cezarCipher(step1)
-        step3 = self.homophonicCipher(step2)
-        ciphered = self.transpositionCipher(step3, self.move2)
+        ciphered = self.transpositionCipher(step2, self.move2)
         logging.info(inputText)
         logging.info(step1)
         logging.info(step2)
-        logging.info(step3)
         logging.info(ciphered)
         return ciphered
 
@@ -54,23 +50,6 @@ class CustomCipher:
         """
         n = random.randint(1, 25)
         return self.words[n % 5] + string.ascii_lowercase[n] + CustomCipher.cezarMove(inputText, n)
-
-    def homophonicCipher(self, inputText: str) -> str:
-        """
-            Do a homophonic cipher of a given text
-            :rtype: str
-        """
-        count = [0, 0, 0]
-        outputText = ''
-        for inputLetter in inputText:
-            for dictionaryLetter in self.emojiLetters:
-                if inputLetter == dictionaryLetter:
-                    emojis = self.emojiLetters[dictionaryLetter]
-                    rand = random.randint(0, len(emojis) - 1)
-                    count[rand] += 1
-                    outputText += emojis[rand]
-        # print('count', count)
-        return outputText
 
     @staticmethod
     def prepareStr(inputText: str) -> str:
