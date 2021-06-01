@@ -7,11 +7,11 @@ np.set_printoptions(threshold=sys.maxsize)
 
 class Steganography:
 
-    def __init__(self):
+    def __init__(self, imageDirectory):
         """
             Set the image directory
         """
-        self.imgDir = 'frontend/public/img/'
+        self.imgDir = imageDirectory
 
     def Encode(self, src: str, message: str, destination: str) -> str:
         """
@@ -28,7 +28,6 @@ class Steganography:
 
         width, height = img.size
         array = np.array(list(img.getdata()))
-
         if img.mode == 'RGB':
             n = 3
         elif img.mode == 'RGBA':
@@ -58,7 +57,7 @@ class Steganography:
 
     def Decode(self, src: str) -> str:
         """
-            Decode the message from the src png and return it
+            Decode the message from the source png image and return the message
             :rtype: str
         """
         src = self.imgDir + src

@@ -9,13 +9,13 @@ app = Flask(__name__)
 # Instantiate objects
 cc = CustomCipher()
 cd = CustomDecipher()
-st = Steganography()
+st = Steganography('img/')
 
 
 @app.route('/api/st/encode', methods=['POST'])
 def stEncode():
     """
-        Check if all the data is provided correctly and call the Steganography.Encode function
+        Check if request contains all the necessary fields and call the Steganography.Encode function
         Example:
             {
                 "src": "img1.png",
@@ -27,7 +27,7 @@ def stEncode():
     values = request.get_json()
     required = ['src', 'message', 'dest']
     if not all(k in values for k in required):
-        return 'Missing values', 400
+        return 'Wrong data provided', 400
 
     response = st.Encode(values['src'], values['message'], values['dest'])
     return jsonify(response), 200
@@ -36,7 +36,7 @@ def stEncode():
 @app.route('/api/st/decode', methods=['POST'])
 def stDecode():
     """
-        Check if the response contains the "src" field and call the Steganography.Decode function
+        Check if the request contains the "src" field and call the Steganography.Decode function
         Example:
             {
                 "src": "hidden.png"
@@ -55,7 +55,7 @@ def stDecode():
 @app.route('/api/cipher/encode', methods=['POST'])
 def cipherEncode():
     """
-        Check if all the data is provided correctly and call the CustomCipher.cipher function
+        Check if the request contains the "text" field and call the CustomCipher.cipher function
         Example:
             {
                 "text": "Studenci powinni czesciej chodzic na piwo"
@@ -72,7 +72,7 @@ def cipherEncode():
 @app.route('/api/cipher/decode', methods=['POST'])
 def cipherDecode():
     """
-        Check if all the data is provided correctly and call the CustomDecipher.decipher function
+        Check if the request contains the "text" field and call the CustomDecipher.decipher function
         Example:
             {
                 "text": "bcnvrprmawvjkpfehbnbcfmavpavaprqqvjvbrpgua"
@@ -87,7 +87,8 @@ def cipherDecode():
 
 def getTextFromResponse(response):
     """
-        Check if the response contains the "text" field
+        Return the "text" field value or None
+        :rtype: optional(str)
     """
     try:
         if not response['text']:

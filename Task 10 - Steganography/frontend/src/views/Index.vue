@@ -7,7 +7,7 @@
         <form @submit="stEncode" autocomplete="off">
           <p>
             Hide a message in the image (this one can take a few seconds) <br>
-            When you type the name instead of '/img/img1.png' type 'img1'
+            When you type the source path type just the name of the file (instead of '/img/img1.png' type 'img1')
           </p>
           <label>
             <input v-model="stEncodedSource" class="w3-input w3-section w3-border" type="text"
@@ -25,7 +25,7 @@
         <p v-if="stEncodedResult">
           {{ stEncodedResult }}
           <br>
-          <img src='../../public/img/hidden.png'
+          <img src='../../../img/hidden.png'
                alt="Your encoded image"
                width="300" height="300">
         </p>
