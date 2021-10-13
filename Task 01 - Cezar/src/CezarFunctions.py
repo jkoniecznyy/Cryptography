@@ -88,10 +88,14 @@ class CezarFunctions:
         englishLettersProbabilities = [0.073, 0.009, 0.030, 0.044, 0.130, 0.028, 0.016, 0.035, 0.074,
                                        0.002, 0.003, 0.035, 0.025, 0.078, 0.074, 0.027, 0.003,
                                        0.077, 0.063, 0.093, 0.027, 0.013, 0.016, 0.005, 0.019, 0.001]
+
+        polishLettersProbabilities = [0.099, 0.0147, 0.0436, 0.0325, 0.0877, 0.003, 0.0142, 0.0108, 0.0821, # i
+                                       0.0228, 0.0351, 0.0392, 0.028, 0.0572, 0.086, 0.0313, 0.0014, #q
+                                       0.0469, 0.0498, 0.0398, 0.0250, 0.004, 0.0465, 0.005, 0.0376, 0.0089] #i
         score = 0
         for letter in text:
             asciiCode = ord(letter)
-            score += math.log(englishLettersProbabilities[asciiCode - 97])
+            score += math.log(polishLettersProbabilities[asciiCode - 97])
         return -score / math.log(2) / len(text)
 
     @staticmethod
